@@ -35,42 +35,48 @@ public class Login extends HttpServlet{
 		//Lấy thông tin từ form người dùng
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		
-		//Neu chua co du lieu post len
-		if(username != null && password != null) {
-			//Kiểm tra có hợp lệ so với cơ sở dữ liệu không
-			boolean check = false;
-			List<User> userList = new ArrayList<User>();
-			Connection con = DBConnection.getConnection();
-			String sql = "select * from user";
-			try {
-				PreparedStatement prepared = con.prepareStatement(sql);
-				var result = prepared.executeQuery();
-				while(result.next()) {
-					User user = new User(result.getString("username"), result.getString("password"));
-					userList.add(user);
+		//Neu co du lieu post len
+		if(req.getSession().getAttribute("user") == null && req.getSession().getAttribute("pass") == null) {
+			if(username != null && password != null) {
+				//Kiểm tra có hợp lệ so với cơ sở dữ liệu không
+				boolean check = false;
+				List<User> userList = new ArrayList<User>();
+				Connection con = DBConnection.getConnection();
+				String sql = "select * from user";
+				try {
+					PreparedStatement prepared = con.prepareStatement(sql);
+					var result = prepared.executeQuery();
+					while(result.next()) {
+						User user1 = new User(result.getString("username"), result.getString("password"));
+						userList.add(user1);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			//Nếu hợp lệ, chuyển tới trang tìm kiếm
-			for(int i = 0; i < userList.size(); i++) {
-				if(userList.get(i).getUsername().equals(username) && userList.get(i).getPass().equals(password)) {
-					req.setAttribute("u", userList.get(i));
-					RequestDispatcher dispatcher = req.getRequestDispatcher("/view/findbook.jsp");//tuong no chuyen toi link nay
-					dispatcher.forward(req, resp);
-					check=true;
+				//Nếu hợp lệ, chuyển tới trang tìm kiếm
+				for(int i = 0; i < userList.size(); i++) {
+					if(userList.get(i).getUsername().equals(username) && userList.get(i).getPass().equals(password)) {
+						req.setAttribute("u", userList.get(i));
+						req.getSession().setAttribute("user", username);
+						req.getSession().setAttribute("pass", password);
+						RequestDispatcher dispatcher = req.getRequestDispatcher("/view/findbook.jsp");
+						dispatcher.forward(req, resp);
+						check=true;
+					}
 				}
-			}
-			//Nếu không, báo lỗi, quay lại trang login
-			if(!check) {
-				printWriter.println("Error Username or Password");
+				//Nếu không, báo lỗi, quay lại trang login
+				if(!check) {
+					printWriter.println("Error Username or Password");
+					RequestDispatcher dispatcher = req.getRequestDispatcher("/view/login.jsp");
+					dispatcher.include(req, resp);
+				}
+			} else {
 				RequestDispatcher dispatcher = req.getRequestDispatcher("/view/login.jsp");
-				dispatcher.include(req, resp);
+				dispatcher.forward(req, resp);
 			}
 		}
 		else {
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/view/login.jsp");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/view/findbook.jsp");
 			dispatcher.forward(req, resp);
 		}
 	}

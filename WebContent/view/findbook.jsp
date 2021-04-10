@@ -14,7 +14,6 @@
 </head>
 <body>
 	<%boolean update = Boolean.valueOf((String)request.getAttribute("information-update-succees"));
-			
 	if(update) {
 		%>
 		<h5 style="color: red">Cập nhật thông tin thành công</h5>
@@ -25,6 +24,7 @@
 	<form action="/ExcerciseT7/check-find" method="post">
 		<input type="search" name="search"> 
 		<input type="submit" value="search">
+		<input type="button" value="Logout" onclick="logout()">
 	</form>
 	
 	<%
@@ -88,6 +88,13 @@
 	}
 	function deleteBook(Id) {
 		location.replace("/ExcerciseT7/delete-book?id="+Id);
+	}
+	function logout() {
+		<%
+		request.getSession().setAttribute("user", null);
+		request.getSession().setAttribute("pass", null);
+		%>
+		location.replace("/ExcerciseT7/view/login.jsp");
 	}
 	</script>
 </body>
