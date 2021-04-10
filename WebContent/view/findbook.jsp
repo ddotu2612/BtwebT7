@@ -9,10 +9,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel='stylesheet' type='text/css' href='view/find-format.css'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
 <body>
-	<%boolean c = Boolean.valueOf((String)request.getAttribute("information-update-succees"));
-	if(c) {
+	<%boolean update = Boolean.valueOf((String)request.getAttribute("information-update-succees"));
+			
+	if(update) {
 		%>
 		<h5 style="color: red">Cập nhật thông tin thành công</h5>
 		<%
@@ -25,21 +28,46 @@
 	</form>
 	
 	<%
-	String name = String.valueOf(request.getAttribute("name1"));
+	String name = request.getAttribute("name1")==null ? "" : (String)request.getAttribute("name1") ;
 	List<Book> books = (ArrayList<Book>)request.getAttribute("books");
 	%>
 	<%
 		if(books != null) {
 			%>
-			<h1>Kết quả tìm kiếm sách cho từ khóa " <%=name %> "</h1>
+			<%
+			if(!name.equals("")) {
+				%>
+				<h1>Kết quả tìm kiếm sách cho từ khóa " <%=name %> "</h1>
+				<%
+			}
+			%>
 			<table> <tr><th>Id</th><th>Name</th><th>Publisher</th><th>Price</th><th>Sửa</th><th>Xóa</th></tr>
 			<%
 				for(int i = 0; i < books.size(); i++) {
+					int id = books.get(i).getId();
 					%>
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">Xóa</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+					        Do you want to delete book <%=books.get(i).getName()%>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					        <button type="button" class="btn btn-primary" onclick="deleteBook(<%=id%>)">Delete</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
 					<tr><td> <%= books.get(i).getId()%></td><td> <%= books.get(i).getName()%>
 		            </td><td><%=books.get(i).getPublisher()%></td><td><%= books.get(i).getPrice()%>
-		            </td><td><button id="<%=books.get(i).getId()%>" onclick="edit(this.id)">Sửa</button></td>
-		            <td><button>Xóa</button></td></tr>
+		            </td><td><button onclick="edit(<%=id%>)">Sửa</button></td>
+		            <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%=i%>">Xóa</button></td></tr>
 		            <%
 				}
 			%>
@@ -51,9 +79,15 @@
 			<%
 		}
 	%>
+	
+
+
 	<script>
 	function edit(Id) {
 		location.replace("/ExcerciseT7/view/editbook.jsp?id="+Id);
+	}
+	function deleteBook(Id) {
+		location.replace("/ExcerciseT7/delete-book?id="+Id);
 	}
 	</script>
 </body>
