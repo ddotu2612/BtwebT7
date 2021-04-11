@@ -10,7 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel='stylesheet' type='text/css' href='view/find-format.css'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
 <body>
 <%
@@ -32,15 +33,39 @@ try {
 	e.printStackTrace();
 }
 %>
-<h1>Sửa thông tin sách có id là <%=book.getId() %></h1>
-<form action="/ExcerciseT7/update-book?id=<%=book.getId()%>" method="post">
-<table>
-<tr><td>ID</td><td><input  type='text' name='id' value="<%=book.getId()%>" disabled></td></tr>
-<tr><td>Tên sách: </td><td><input type='text' name='name' value="<%=book.getName() %>"></td></tr>
-<tr><td>Tên nhà xuất bản: </td><td><input type='text' name='publisher' value="<%=book.getPublisher() %>"></td></tr>
-<tr><td>Giá: </td><td><input type='text' name='price' value="<%=book.getPrice() %>"></td></tr>
-<tr><td><input type="submit" value='Cập nhật'></td></tr>
-</table>
-</form>
+	<div class="container mt-4">
+		<h3>Sửa thông tin sách: <%=book.getName() %></h3>
+		<form action="/ExcerciseT7/update-book?id=<%=book.getId()%>" method="post">
+			<div class="mb-3">
+  				<label class="form-label">ID</label>
+  				<input type="text" class="form-control" name='id' value="<%=book.getId() %>" disabled>
+			</div>
+			<div class="mb-3">
+  				<label class="form-label">Tên sách</label>
+  				<input type="text" class="form-control" name='name' value="<%=book.getName() %>">
+			</div>
+			<div class="mb-3">
+  				<label class="form-label">Nhà xuất bản</label>
+  				<input type="text" class="form-control" name='publisher' value="<%=book.getPublisher() %>">
+			</div>
+			<div class="mb-3">
+  				<label class="form-label">Giá</label>
+  				<input type="text" class="form-control" name='price' value="<%=book.getPrice() %>">
+			</div>
+			<button type="submit" class="btn btn-primary">Lưu</button>
+		</form>
+	</div>
+	
+	<style>
+		body{
+			background: #141E30;  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, #243B55, #141E30);  
+			background: linear-gradient(to right, #243B55, #141E30);
+			color: #fff;
+		}
+		.form-control{
+			width: 40%;
+		}
+	</style>
 </body>
 </html>

@@ -4,22 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Login</title>
+<link rel='stylesheet' type='text/css' href='view/login.css'>
 </head>
 <body>
-	  <h1>Đăng nhập vào hệ thống</h1>
-      <form action="/ExcerciseT7/check-login" method="post">
-      	<table>
-      	<tr>
-      	<td>UserName:</td>
-      	<td><input type="text" name="username"></td>
-      	</tr>
-      	<tr>
-      	<td>Password:</td>
-      	<td><input type="password" name="password"></td>
-      	</tr>
-      	<tr><td><input type="submit" value="Submit"></td></tr>
-      	</table>
+	<div class="login"> 
+	  <form action="/ExcerciseT7/check-login" method="post">
+    	<h1>Login</h1>
+		<input type="text" name="username" placeholder="Username" required="required" />
+        <input type="password" name="password" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
       </form>
+	</div>
 </body>
 </html>
