@@ -42,15 +42,15 @@ try {
 			</div>
 			<div class="mb-3">
   				<label class="form-label">Tên sách</label>
-  				<input type="text" class="form-control" name='name' value="<%=book.getName() %>">
+  				<input type="text" class="form-control" name='name' value="<%=book.getName() %>" required="true">
 			</div>
 			<div class="mb-3">
   				<label class="form-label">Nhà xuất bản</label>
-  				<input type="text" class="form-control" name='publisher' value="<%=book.getPublisher() %>">
+  				<input type="text" class="form-control" name='publisher' value="<%=book.getPublisher() %>" required="true">
 			</div>
 			<div class="mb-3">
   				<label class="form-label">Giá</label>
-  				<input type="text" class="form-control" name='price' value="<%=book.getPrice() %>">
+  				<input type="number" class="form-control" name='price' value="<%=book.getPrice() %>" required="true">
 			</div>
 			<button type="submit" class="btn btn-primary">Lưu</button>
 		</form>
